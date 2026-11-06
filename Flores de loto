@@ -1,0 +1,282 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jardín Mágico de Lotos</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  overflow: hidden;
+  background: linear-gradient(#080e2b, #202d55, #38677b);
+  font-family: Georgia, serif;
+}
+
+/* Luna */
+.luna {
+  position: absolute;
+  top: 55px;
+  right: 12%;
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  background: #fff4d6;
+  box-shadow: 0 0 35px #fff2bd, 0 0 90px #f7c9df;
+}
+
+/* Título */
+h1 {
+  position: absolute;
+  top: 35px;
+  width: 100%;
+  text-align: center;
+  color: #ffe4f2;
+  font-size: clamp(22px, 5vw, 38px);
+  text-shadow: 0 0 20px #ff8bc9;
+  z-index: 10;
+}
+
+/* Estrellas */
+.estrella {
+  position: absolute;
+  color: white;
+  animation: brillar 2s infinite alternate;
+}
+
+@keyframes brillar {
+  from { opacity: .2; transform: scale(.7); }
+  to { opacity: 1; transform: scale(1.3); }
+}
+
+/* Agua */
+.agua {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 40%;
+  background: linear-gradient(#23566a, #071c37);
+  overflow: hidden;
+}
+
+.agua::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  left: -50%;
+  top: -15px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0 45px,
+    #a3e9e9 48px,
+    transparent 53px 100px
+  );
+  opacity: .13;
+  animation: corriente 8s linear infinite;
+}
+
+@keyframes corriente {
+  to { transform: translateX(100px); }
+}
+
+/* Flores */
+.flor {
+  position: absolute;
+  bottom: 31%;
+  width: 150px;
+  height: 130px;
+  animation: flotar 4s ease-in-out infinite;
+}
+
+.flor:nth-child(1) {
+  left: 10%;
+  transform: scale(.8);
+}
+
+.flor:nth-child(2) {
+  left: 42%;
+  animation-delay: 1s;
+}
+
+.flor:nth-child(3) {
+  right: 8%;
+  animation-delay: 2s;
+  transform: scale(.9);
+}
+
+@keyframes flotar {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -13px; }
+}
+
+/* Pétalos */
+.petalo {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 38px;
+  height: 90px;
+  transform-origin: bottom center;
+  border-radius: 90% 90% 35% 35%;
+  background: linear-gradient(
+    90deg,
+    #b92776,
+    #ff80bc,
+    #ffe0f1
+  );
+  box-shadow: inset 0 -10px 15px #c43d83,
+              0 0 12px #ff8bc9;
+  animation: abrir 3s ease-in-out infinite alternate;
+}
+
+@keyframes abrir {
+  from { margin-bottom: -8px; }
+  to { margin-bottom: 7px; }
+}
+
+/* Centro de la flor */
+.centro {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: radial-gradient(#fff7a1, #e6a72b);
+  left: 50%;
+  bottom: -7px;
+  transform: translateX(-50%);
+  box-shadow: 0 0 20px #ffe66b;
+  z-index: 5;
+}
+
+/* Hojas */
+.hoja {
+  position: absolute;
+  bottom: 25%;
+  width: 100px;
+  height: 48px;
+  background: linear-gradient(120deg, #a5d77a, #17654d);
+  border-radius: 100% 0 100% 0;
+  box-shadow: 0 0 15px #3f9c70;
+  animation: hojas 5s ease-in-out infinite;
+}
+
+.hoja:nth-child(1) { left: 5%; }
+.hoja:nth-child(2) { left: 32%; }
+.hoja:nth-child(3) { left: 65%; }
+.hoja:nth-child(4) { right: 2%; }
+
+@keyframes hojas {
+  50% { transform: rotate(10deg) translateY(-8px); }
+}
+
+/* Luciérnagas */
+.luz {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fff4a6;
+  box-shadow: 0 0 15px 5px #ffe58a;
+  animation: volar 6s infinite alternate ease-in-out;
+}
+
+@keyframes volar {
+  0% { transform: translate(0, 0); opacity: .2; }
+  50% { opacity: 1; }
+  100% { transform: translate(35px, -55px); opacity: .3; }
+}
+
+/* Texto */
+.mensaje {
+  position: absolute;
+  bottom: 7%;
+  width: 100%;
+  text-align: center;
+  color: #ffe2f0;
+  font-size: 18px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 15px #ff83c4;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🌸 Jardín Mágico de Lotos 🌸</h1>
+
+<div class="luna"></div>
+<div class="agua"></div>
+
+<script>
+
+// Crear flores
+const posiciones = ["10%", "42%", "78%"];
+
+posiciones.forEach((pos, index) => {
+  const flor = document.createElement("div");
+  flor.className = "flor";
+  flor.style.left = pos;
+  flor.style.animationDelay = index + "s";
+
+  for(let i = 0; i < 12; i++) {
+    const petalo = document.createElement("div");
+    petalo.className = "petalo";
+    petalo.style.transform =
+      `translateX(-50%) rotate(${i * 30}deg)`;
+    petalo.style.animationDelay = i * 0.12 + "s";
+    flor.appendChild(petalo);
+  }
+
+  const centro = document.createElement("div");
+  centro.className = "centro";
+  flor.appendChild(centro);
+
+  document.body.appendChild(flor);
+});
+
+// Crear hojas
+for(let i = 0; i < 4; i++) {
+  const hoja = document.createElement("div");
+  hoja.className = "hoja";
+  hoja.style.left = [ "5%", "32%", "65%", "88%" ][i];
+  document.body.appendChild(hoja);
+}
+
+// Crear estrellas
+for(let i = 0; i < 45; i++) {
+  const estrella = document.createElement("span");
+  estrella.className = "estrella";
+  estrella.innerHTML = "✦";
+  estrella.style.left = Math.random() * 100 + "%";
+  estrella.style.top = Math.random() * 75 + "%";
+  estrella.style.animationDelay = Math.random() * 3 + "s";
+  estrella.style.fontSize = (5 + Math.random() * 12) + "px";
+  document.body.appendChild(estrella);
+}
+
+// Crear luciérnagas
+for(let i = 0; i < 15; i++) {
+  const luz = document.createElement("div");
+  luz.className = "luz";
+  luz.style.left = Math.random() * 100 + "%";
+  luz.style.top = (30 + Math.random() * 60) + "%";
+  luz.style.animationDelay = Math.random() * 5 + "s";
+  document.body.appendChild(luz);
+}
+
+</script>
+
+<div class="mensaje">
+  ✨ Donde hay belleza, siempre florece la magia ✨
+</div>
+
+</body>
+</html>
